@@ -13,7 +13,7 @@ commands:
           command: |
             aws cloudformation delete-stack \
               --stack-name udapeople-backend-<<parameters.workflow_id>>
-            aws s3 rm s3:://udapeople-<<parameters.workflow_id>> --recursive
+            aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
             aws cloudformation delete-stack \
               --stack-name udapeople-frontend-<<parameters.workflow_id>>
 
@@ -118,7 +118,7 @@ jobs:
       - run:
           name: Ensure backend infrastructure exists
           command: |
-            aws cloudfromation deploy \
+            aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
@@ -127,7 +127,7 @@ jobs:
           name: Ensure frontend infrastructure exists
           command: |
             command: |
-            aws cloudfromation deploy \
+            aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
