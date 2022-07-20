@@ -32,8 +32,8 @@ jobs:
             npm install
             npm run build
       - save_cache:
-        paths: [backend/node_modules]
-        key: backend-build
+          paths: [backend/node_modules]
+          key: backend-build
 
 workflows:
   default:
