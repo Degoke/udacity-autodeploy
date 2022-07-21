@@ -194,7 +194,7 @@ jobs:
       - destroy-enviroment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
-  run_migrations:
+  run-migrations:
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -223,7 +223,7 @@ jobs:
             then
               curl --insecure https://kvdb.io/ECpXbtSuh47jDA4Cah45wR/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
             fi
-      - revert_migrations
+      - revert-migrations
       - destroy-enviroment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
