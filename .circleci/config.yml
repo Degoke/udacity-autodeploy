@@ -255,7 +255,7 @@ jobs:
             tar -czvf artifact="${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - revert-migrations
-      - destroy enviroments:
+      - destroy-enviroments:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   deploy-backend:
@@ -265,7 +265,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - ''
+            - 'a5:b6:c4:96:c4:2c:31:e8:dc:34:4e:83:54:6b:50:73'
       - run:
           name: INstall dependencies
           command: |
@@ -288,7 +288,7 @@ jobs:
             echo "contents of the inventory file is $(cat inventory.txt"
             ansible playbook -i inventory.txt deploy-backend.yml
       - revert-migrations
-      - destroy enviroments:
+      - destroy-enviroments:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
       
