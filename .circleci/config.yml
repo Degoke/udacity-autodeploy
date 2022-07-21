@@ -270,7 +270,7 @@ jobs:
           name: INstall dependencies
           command: |
             apk add --update --no-cache tar gzip nodejs npm aws-cli ansible
-      - restore_cache
+      - restore_cache:
           keys: [backend-build]
       - attach_workspace:
           at: ~/
