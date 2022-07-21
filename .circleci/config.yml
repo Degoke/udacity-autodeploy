@@ -24,9 +24,9 @@ commands:
           name: Revert Migrations
           when: on_fail
           command: |
-          cd ~/project/backend
-          npm install
-          npm run migrations:revert
+            cd ~/project/backend
+            npm install
+            npm run migrations:revert
 
 jobs:
   build-frontend:
