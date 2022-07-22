@@ -280,7 +280,7 @@ jobs:
           name: Deploy backend
           command: |
             cd backend
-            npm install94d687c
+            npm install
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
