@@ -233,7 +233,7 @@ jobs:
       - run:
           name: install dwependencies
           command: |
-            apk ass --update --no-cache tar gzip nodejs npm aws-cli
+            apk add --update --no-cache tar gzip nodejs npm aws-cli
       - restore_cache:
           keys: [frontend-build]
       - run:
