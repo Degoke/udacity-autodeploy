@@ -19,13 +19,22 @@ commands:
 
   revert-migrations:
     description: Revert last migration
+    parameters: 
+      workflow_id:
+        type: string
     steps:
       - run:
           name: Revert Migrations
           when: on_fail
           command: |
-            cd ~/project/backend
-            npm run migrations:revert
+            SUCCESS=$(curl --insecure https://kvdb.io/ECpXbtSuh47jDA4Cah45wR/migration_<<parameters.workflow_id>>)
+            if ((SUCCESS == 1))
+            then
+              cd ~/project/backend
+              npm install
+              npm run build
+              npm run migrations:revert
+            fi
 
 jobs:
   build-frontend:
@@ -222,7 +231,6 @@ jobs:
             then
               curl --insecure https://kvdb.io/ECpXbtSuh47jDA4Cah45wR/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
             fi
-      - revert-migrations
       - destroy-enviroment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
@@ -256,8 +264,9 @@ jobs:
             npm run build
             tar -czvf artifact="${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-      - revert-migrations
       - destroy-enviroment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   deploy-backend:
@@ -289,8 +298,9 @@ jobs:
             cd .circleci/ansible
             echo "contents of the inventory file is ----$(cat inventory.txt)"
             ansible-playbook -i inventory.txt deploy-backend.yml
-      - revert-migrations
       - destroy-enviroment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   smoke-test:
@@ -318,8 +328,9 @@ jobs:
             export URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com/#/employees"
             echo $URL
             if curl ${URL} | grep "Welcome"; then return 1; else return 1; fi
-      - revert-migrations
       - destroy-enviroment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
   
   # cloudfront-update:
