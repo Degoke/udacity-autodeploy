@@ -375,6 +375,8 @@ jobs:
     docker: 
       - image: amazon/aws-cli
     steps:
+      - attach_workspace:
+          at: ~/
       - run:
           name: get old stack workflow id
           command: |
