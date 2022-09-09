@@ -1,0 +1,3 @@
+URL01 = https://github.com/Degoke/udapeople-autodeploy
+
+URL02 = http://udapeople-1204517.s3-website-us-east-1.amazonaws.com/#/employees
